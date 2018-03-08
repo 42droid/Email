@@ -11,7 +11,12 @@ DONT_MSG = """ {} dsaf """
 #file name
 info_file = open('info.csv')
 csv_reader = csv.reader(info_file, delimiter=',')
+#for some reason doesn't work makes things fail.
 #next(csv_reader)
+
+smtp = smtplib.SMTP('smtp.gmail.com')
+
+smtp.login(SENDER_EMAIL, SENDER_PASSWORD)
 
 for row in csv_reader:
 
@@ -21,10 +26,10 @@ for row in csv_reader:
         msg = SEND_MSG.format(name)
     else:
         msg = DONT_MSG.format(name)
-
-    print("send E-mail to: {}".format(email))
-    print("E-mail content:")
-    print(msg) 
+    
+    smtp.sendmail(SENDER_EMAIL, email, msg)
+    
+smpt.close()
 
 
 info_file.close()
